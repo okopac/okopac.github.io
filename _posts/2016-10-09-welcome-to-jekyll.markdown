@@ -51,10 +51,39 @@ A unit is simply a variable. It can be fixed (like the input x) or variable (lik
   a parameter of the network). In the case of the former we need only its value. For the latter
   we also need the gradient (the direction in which we wish to move it).
 
+{% highlight python %}
+
+class Unit(object):
+
+def __init__(self, value = None, grad = None, name=None):
+    super(Unit, self).__init__()
+    self.value = value
+    self.grad = grad
+    self.name = name
+
+{% endhighlight %}
+
 A gate is a transformation, it take a unit, performs some simple transformation (possibly
   combining it with other input units) and outputs a new unit. We need to know two things, how
   to perform the forward transformation and how to pass the gradient back through when
   performing back propagation.
+
+{% highlight python %}
+  class Gate(object):
+      def __init__(self, ucreator):
+          super(Gate, self).__init__()
+          self.ucreator = ucreator
+          self.inputs = []
+          self.output_unit = self.ucreator.new_unit()
+
+      def forward(self):
+          raise NotImplementedError
+
+      def backward(self):
+          raise NotImplementedError
+
+
+{% endhighlight %}
 
 Using just these components we can build complex networks that are capable of modeling
 [complex structures](https://github.com/okopac/pynet/blob/master/gatebased/LayerNNExample.ipynb).
