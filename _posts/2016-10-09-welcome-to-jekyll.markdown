@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Welcome to Jekyll!"
+title:  "Learning through logic gates"
 date:   2016-10-09 18:46:51 +0100
 categories: jekyll update
 ---
