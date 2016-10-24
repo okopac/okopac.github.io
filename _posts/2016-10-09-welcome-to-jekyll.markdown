@@ -1,25 +1,73 @@
 ---
 layout: post
 title:  "Learning through logic gates"
-date:   2016-10-09 18:46:51 +0100
-categories: jekyll update
+date:   2016-10-24 18:46:51 +0100
+categories: neuralnetworks
 ---
-You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
+I've got a background in software and data analysis, but for a while now I've wanted
+to learn more about machine learning, specifically neural networks. The
+first attempt at doing this followed [this fantastic guide](http://karpathy.github.io/neuralnets/)
+which happened to described how to implement a basic neural network in javascript. Rather
+than just read along, I thought I'd spend some time rewriting and extending the work
+in python.
 
-To add new posts, simply add a file in the `_posts` directory that follows the convention `YYYY-MM-DD-name-of-post.ext` and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.
+This post covers some of the basics that I have gained from this work. All code is
+on [my github page](https://www.github.com/okopac/pynet/gatebased). Although the maths
+is really interesting, I've tried to avoid getting into it below. There are many great
+references which I've linked below.
 
-Jekyll also offers powerful support for code snippets:
+# Basics of neuralnets
 
-{% highlight ruby %}
-def print_hi(name)
-  puts "Hi, #{name}"
-end
-print_hi('Tom')
-#=> prints 'Hi, Tom' to STDOUT.
-{% endhighlight %}
+Neural networks have lots of different types, architectures and components, but fundamentally
+they are trying to approximate a function.
 
-Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll’s GitHub repo][jekyll-gh]. If you have questions, you can ask them on [Jekyll Talk][jekyll-talk].
+> Given an input `x`, what is best approximation `f'(x)` for the output `f(x)`?
 
+This is achieved by taking an input vector and running it through a network of transformations,
+with the output of each transformation feeding back into the next. Importantly there are weights
+between the edges of each transformation which explain how important the result of the previous
+neuron is in dictating the input for the next. These weights are the key part of the network,
+changing these parameters allows us to fit any function we desire.
+
+# Minimising loss and back propagation
+
+There are lots of great resources out these to learn about this subject. Sufficed to say
+for this implementation I needed just the basics.
+
+Minimising loss means 'how can I change my function approximation so it has the least errors
+when compared to the real function'.
+
+Back propagation is the process through which the error in our guess of the output is
+learnt from. Basically we are asking the question, how should I change the parameters in my
+network to make the error (or loss) lower. In reality this means differentiating our function and using the chain rule
+to pass the desired change in output back through all the parameters we could possibly change.
+
+# Code Architecture
+
+Following on the from previously mentioned blog, I've implemented a neural network using the
+basic principle of two components: gates and units.
+
+A unit is simply a variable. It can be fixed (like the input x) or variable (like
+  a parameter of the network). In the case of the former we need only its value. For the latter
+  we also need the gradient (the direction in which we wish to move it).
+
+A gate is a transformation, it take a unit, performs some simple transformation (possibly
+  combining it with other input units) and outputs a new unit. We need to know two things, how
+  to perform the forward transformation and how to pass the gradient back through when
+  performing back propagation.
+
+Using just these components we can build complex networks that are capable of modeling
+[complex structures](https://github.com/okopac/pynet/blob/master/gatebased/LayerNNExample.ipynb).
+We can combine individual gates into layers.
+
+# Conclusions
+
+Writing a neural network from scratch has helped to explain some of the fundamental concepts like
+minimising loss, back propagation and gradient descent.
+
+It's been a great introduction into the subject, but using single gates is not a great way to
+scale out network design. Python is a language that has lots of matrix support, so my next step
+will be to implement some NN using numpy, and try and tackle some more complex problems.
 
 [jekyll-docs]: http://jekyllrb.com/docs/home
 [jekyll-gh]:   https://github.com/jekyll/jekyll
