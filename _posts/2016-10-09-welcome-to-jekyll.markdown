@@ -11,10 +11,12 @@ which happened to described how to implement a basic neural network in javascrip
 than just read along, I thought I'd spend some time rewriting and extending the work
 in python.
 
-This post covers some of the basics that I have gained from this work. All code is
-on [my github page](https://www.github.com/okopac/pynet/gatebased). Although the maths
-is really interesting, I've tried to avoid getting into it below. There are many great
-references which I've linked below.
+Rather than talk through the basics of neural networks, this post discusses this specific
+implementation, where the neural network is comprised entirely of two components: gates
+ and units. Its an implementation that's limited (for reasons discussed below) but simple
+ to understand and work with.
+
+All code is on [my github page](https://www.github.com/okopac/pynet/gatebased).
 
 # Basics of neuralnets
 
@@ -26,30 +28,32 @@ they are trying to approximate a function.
 This is achieved by taking an input vector and running it through a network of transformations,
 with the output of each transformation feeding back into the next. Importantly there are weights
 between the edges of each transformation which explain how important the result of the previous
-neuron is in dictating the input for the next. These weights are the key part of the network,
-changing these parameters allows us to fit any function we desire.
+neuron is in dictating the input for the next.
 
-# Minimising loss and back propagation
-
-There are lots of great resources out these to learn about this subject. Sufficed to say
-for this implementation I needed just the basics.
-
-Minimising loss means 'how can I change my function approximation so it has the least errors
-when compared to the real function'.
-
-Back propagation is the process through which the error in our guess of the output is
-learnt from. Basically we are asking the question, how should I change the parameters in my
-network to make the error (or loss) lower. In reality this means differentiating our function and using the chain rule
-to pass the desired change in output back through all the parameters we could possibly change.
+These weights are the key part of the network, changing these parameters allows us to
+fit any function we desire. The processing of training a neural network is really just
+changing all the weights to minimise the error between prediction `f'(x)` and reality
+`f(x)`. This is achieved through a process called backpropagation.
 
 # Code Architecture
 
-Following on the from previously mentioned blog, I've implemented a neural network using the
-basic principle of two components: gates and units.
+As described above, this implementation is built from two fundamental components, `units`
+ and `gates`. Units are bound to gates as thier inputs and outputs, and gates are bound
+ together by using common units between input and output.
 
-A unit is simply a variable. It can be fixed (like the input x) or variable (like
-  a parameter of the network). In the case of the former we need only its value. For the latter
-  we also need the gradient (the direction in which we wish to move it).
+ DIAGRAM
+
+## Unit
+
+A `unit` is simply a variable. It can be fixed (like the input x) or variable (like
+  a parameter of the network). In the case of prediction (forward propagation) we need
+  only its `value`.
+
+When training the model, we also need a `gradient`, to store the direction
+  and magnitude of change we should apply in order to reduce the prediction error.
+
+In our example, we also optionally name our units to help with understanding the underlying
+ processes within the network.
 
 {% highlight python %}
 
@@ -63,10 +67,15 @@ def __init__(self, value = None, grad = None, name=None):
 
 {% endhighlight %}
 
-A gate is a transformation, it take a unit, performs some simple transformation (possibly
-  combining it with other input units) and outputs a new unit. We need to know two things, how
-  to perform the forward transformation and how to pass the gradient back through when
-  performing back propagation.
+## Gate
+
+A `gate` is the computational heart of the network. It take a unit, performs some simple transformation (possibly combining it with other input units) and outputs a new unit.
+
+When calculating the output of the model the gate is used in the forward direction. It uses
+the values of the inputs bound to to, and updates the output value to reflect this transformation.
+
+During training we also need a backward method to propagate the paramter updates back
+through the model.
 
 {% highlight python %}
   class Gate(object):
@@ -85,11 +94,24 @@ A gate is a transformation, it take a unit, performs some simple transformation 
 
 {% endhighlight %}
 
+I've implemented a couple of key gates to build basic networks, called `Combiner`, `Sigmoid`,
+`TanH`.
+
+The `Combiner` gate is the building block of the network, and is the only gate that has more
+than one input. It essentially models the equation `g(x1, x2, ...) = a0 + a1*x1 + a2*x2 + ...`,
+combining input units with a weighted sum, including a bias term `a0` at the start. These
+gates are responsible for combining together units from previous gates in the network before passing
+them into one of the second set of single input/output gates.
+
+The `Sigmoid` and `TanH` gates are fairly simple in comparison, in that they have a single
+input and perform a simple mathematical transformation to create an output value. These transformations
+are non-linear, as shown below. This non-linearity help the neural network represent more
+complex functions.
+
+# Conclusions
 Using just these components we can build complex networks that are capable of modeling
 [complex structures](https://github.com/okopac/pynet/blob/master/gatebased/LayerNNExample.ipynb).
 We can combine individual gates into layers.
-
-# Conclusions
 
 Writing a neural network from scratch has helped to explain some of the fundamental concepts like
 minimising loss, back propagation and gradient descent.
