@@ -126,6 +126,8 @@ are non-linear, as shown below. This non-linearity help the neural network repre
 complex functions. You'll find these referred to as activation gates, basically determining what
 input signal is required to 'fire' the output.
 
+<img src="{{site.url}}/data/sigtan.png" align="center"/>
+
 ### Aside: unit creator
 
 Whilst writing this code I started to find I would loose track of where units were created.
@@ -180,7 +182,7 @@ gate.
    c -> g;
    g -> o;
  }
-'/>
+' align="center"/>
 
 # FFN (Feed Forward Networks)
 
@@ -200,7 +202,7 @@ look like the diagram below.
    b0->c0;b0->c1;b0->c2;b0->c3;b1->c0;b1->c1;b1->c2;b1->c3;b2->c0;b2->c1;b2->c2;b2->c3;b3->c0;b3->c1;b3->c2;b3->c3;
    c0->out;c1->out;c2->out;c3->out;
  }
-'/>
+' align="center"/>
 
 The diagram is a little more complicated in this in our example. We only have one gate
 type `Combiner` that is able to process multiple inputs at each layer. As such each of the gates
@@ -215,7 +217,7 @@ act_a0->comb_b0;act_a0->comb_b1;act_a0->comb_b2;act_a0->comb_b3;comb_a0->act_a0;
 act_b0->comb_c0;act_b0->comb_c1;act_b0->comb_c2;act_b0->comb_c3;comb_b0->act_b0;act_b1->comb_c0;act_b1->comb_c1;act_b1->comb_c2;act_b1->comb_c3;comb_b1->act_b1;act_b2->comb_c0;act_b2->comb_c1;act_b2->comb_c2;act_b2->comb_c3;comb_b2->act_b2;act_b3->comb_c0;act_b3->comb_c1;act_b3->comb_c2;act_b3->comb_c3;comb_b3->act_b3;
 comb_c0->act_c0;comb_c1->act_c1;comb_c2->act_c2;comb_c3->act_c3;
 }
-'/>
+' align="center"/>
 
 # Conclusions
 Using just these components we can build complex networks that are capable of modeling
@@ -229,6 +231,8 @@ It's been a great introduction into the subject, but using single gates is not a
 scale out network design. Python is a language that has lots of matrix support, so my next step
 will be to implement some NN using numpy, and try and tackle some more complex problems.
 
+# References
+[^1]: https://gist.github.com/okopac/957f275251fd4bb3aacc8eb36a7c841c
 [jekyll-docs]: http://jekyllrb.com/docs/home
 [jekyll-gh]:   https://github.com/jekyll/jekyll
 [jekyll-talk]: https://talk.jekyllrb.com/
