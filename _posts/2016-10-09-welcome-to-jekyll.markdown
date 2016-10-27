@@ -126,7 +126,7 @@ are non-linear, as shown below. This non-linearity help the neural network repre
 complex functions. You'll find these referred to as activation gates, basically determining what
 input signal is required to 'fire' the output.
 
-<img src="{{site.url}}/data/sigtan.png" align="center"/>
+<img src="{{baseurl}}/assets/sigtan.png" align="center"/>
 
 ### Aside: unit creator
 
