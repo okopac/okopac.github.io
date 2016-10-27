@@ -111,8 +111,7 @@ class Gate(object):
 
 {% endhighlight %}
 
-I've implemented a couple of key gates to build basic networks, called `Combiner`, `Sigmoid`,
-`TanH`.
+The are two key classes of gates in this code, the `Combiner` and `Activation`.
 
 The `Combiner` gate is the building block of the network, and is the only gate that has more
 than one input. It essentially models the equation `g(x1, x2, ...) = a0 + a1*x1 + a2*x2 + ...`,
@@ -120,11 +119,14 @@ combining input units with a weighted sum, including a bias term `a0` at the sta
 gates are responsible for combining together units from previous gates in the network before passing
 them into one of the second set of single input/output gates.
 
-The `Sigmoid` and `TanH` gates are both fairly simple in comparison, in that they have a single
-input and perform a simple mathematical transformation to create an output value. These transformations
-are non-linear, as shown below. This non-linearity help the neural network represent more
-complex functions. You'll find these referred to as activation gates, basically determining what
-input signal is required to 'fire' the output.
+The `Activation` gates are both fairly simple in comparison, in that they have a single
+input and perform a simple mathematical transformation to create an output value.
+
+Typically these transformations are non-linear, as shown by the `Sigmoid` and `TanH` gates below.
+This non-linearity help the
+neural network represent more complex functions. You'll find these referred to as activation gates, basically determining what
+input signal is required to 'fire' the output. We see how the `Sigmoid` and `TanH` gates map the input value
+onto the domain `0 -> 1` and `-1 -> 1` respectively.
 
 <img src="{{baseurl}}/assets/sigtan.png" align="center"/>
 
