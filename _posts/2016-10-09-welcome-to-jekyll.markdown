@@ -227,20 +227,22 @@ comb_c0->act_c0;comb_c1->act_c1;comb_c2->act_c2;comb_c3->act_c3;
 }
 ' align="center"/>
 
+I used a network of `TanH` activation gates, with a layer configuration of `8 2 2` to model
+the spiral dataset below.
+
+![spiral]({{baseurl}}/assets/spiraldata.png)
+
+We trained the network for less than 300 iterations, successfully capturing the complexity of
+the spiral dataset.
+
+![spiraltrain]({{baseurl}}/assets/spiraltrain.png)
+
 # Conclusions
+
 Using just these components we can build complex networks that are capable of modeling
 [complex structures](https://github.com/okopac/pynet/blob/master/gatebased/LayerNNExample.ipynb).
-We can combine individual gates into layers.
-
-Writing a neural network from scratch has helped to explain some of the fundamental concepts like
-minimising loss, back propagation and gradient descent.
+We can combine individual gates into layers, although its not easy.
 
 It's been a great introduction into the subject, but using single gates is not a great way to
 scale out network design. Python is a language that has lots of matrix support, so my next step
 will be to implement some NN using numpy, and try and tackle some more complex problems.
-
-# References
-[^1]: https://gist.github.com/okopac/957f275251fd4bb3aacc8eb36a7c841c
-[jekyll-docs]: http://jekyllrb.com/docs/home
-[jekyll-gh]:   https://github.com/jekyll/jekyll
-[jekyll-talk]: https://talk.jekyllrb.com/
