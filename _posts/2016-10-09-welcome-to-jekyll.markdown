@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Learning through logic gates"
+title:  "Learning through neural nets through logic gates"
 date:   2016-10-24 18:46:51 +0100
 categories: neuralnetworks
 ---
@@ -185,6 +185,12 @@ gate.
    g -> o;
  }
 ' align="center"/>
+
+Using this notebook I trained this network to model the equation `y(x, y) = 6.4x - 9y + 2.8`. It's
+a simple model to train to, but we see that the basic network is able to achieve a good accuracy
+after ~600 training iterations.
+
+<img src="{{baseurl}}/assets/svmtraintest.png" align="center"/>
 
 # FFN (Feed Forward Networks)
 
